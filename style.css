@@ -1,62 +1,231 @@
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      font-size: 18px; line-height: 1.35;
-      background: #f4f5f7; color: #16181d;
-    }
-    main { max-width: 480px; margin: 0 auto; padding: 20px 16px 40px; }
-    h1 { font-size: 26px; line-height: 1.2; margin: 0 0 10px; }
-    h2 { font-size: 20px; margin: 28px 0 10px; }
-    p { margin: 0 0 10px; }
-    label, .label { display: block; margin: 0 0 6px; font-size: 16px; color: #4a4f5a; }
-    input, textarea {
-      width: 100%; padding: 0 14px; margin: 0 0 16px;
-      font: inherit; border: 1px solid #c5c9d2; border-radius: 12px; background: #fff; color: inherit;
-    }
-    input { height: 56px; }
-    textarea { padding: 12px 14px; resize: vertical; }
-    button, .btn {
-      display: block; width: 100%; min-height: 56px; padding: 8px 12px;
-      font: inherit; font-weight: 600; text-align: center; text-decoration: none;
-      border: 0; border-radius: 12px; background: #1f6feb; color: #fff; cursor: pointer;
-    }
-    button:disabled { opacity: .45; }
-    .secondary { background: #e3e6ec; color: #16181d; }
-    .error { color: #b3261e; margin: 8px 0; }
-    .error:empty { display: none; }
-    .muted { color: #5b616e; font-size: 16px; }
-    .hidden { display: none !important; }
-    .place { margin: 0 0 16px; }
-    .place div { margin-top: 2px; }
-    .choice { display: flex; gap: 8px; }
-    .choice button, .grid button { background: #fff; color: #16181d; border: 2px solid #c5c9d2; }
-    .choice button small, .grid button small { display: block; font-weight: 400; font-size: 15px; }
-    .choice button[aria-pressed="true"], .grid button[aria-pressed="true"] {
-      background: #1f6feb; border-color: #1f6feb; color: #fff;
-    }
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .grid button { min-height: 62px; padding: 6px 4px; }
-    .grid button small { color: #5b616e; }
-    .grid button[aria-pressed="true"] small { color: #fff; }
-    .grid button:disabled { opacity: 1; background: #eceef2; border-color: #e3e6ec; color: #7a808c; cursor: default; }
-    .grid button:disabled small { color: #7a808c; }
-    .summary {
-      margin: 0 0 16px; padding: 12px 14px; background: #fff; border-radius: 12px;
-      border: 1px solid #c5c9d2; border-left: 8px solid #1f6feb;
-    }
-    .summary.replacement { border-left-color: #c2570c; }
-    .summary .head { font-weight: 700; font-size: 20px; }
-    .summary div + div { margin-top: 4px; }
-    #done-screen .btn { margin-top: 8px; }
-    .demo { color: #174d99; font-size: 15px; font-weight: 700; }
-    nav { margin-top: 18px; }
-    .step { margin-top: 24px; }
-    select {
-      width: 100%; min-height: 50px; margin: 0 0 16px; padding: 0 12px;
-      font: inherit; color: inherit; background: #fff;
-      border: 1px solid #c5c9d2; border-radius: 12px;
-    }
-    .summary button { margin-top: 12px; }
-    :focus-visible { outline: 3px solid #97437b; outline-offset: 3px; }
-    .grid button:disabled, .grid button:disabled small { color: #565d69; }
+:root {
+  --page: #edf2f8;
+  --surface: #fff;
+  --surface-muted: #f2f5f9;
+  --ink: #182437;
+  --muted: #4d5b70;
+  --border: #d5dfea;
+  --control-border: #78869b;
+  --accent: #2457bc;
+  --accent-hover: #19469f;
+  --accent-soft: #eaf1ff;
+  --danger: #a22525;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --radius: 12px;
+  --panel-radius: 20px;
+  --motion: 180ms cubic-bezier(.2, .7, .3, 1);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font: 1rem/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+main {
+  max-width: 620px;
+  margin-inline: auto;
+  padding: clamp(var(--space-5), 5vw, 56px) var(--space-4) 48px;
+}
+
+header { margin-bottom: var(--space-4); }
+
+h1 {
+  margin: 0 0 var(--space-2);
+  font-size: clamp(1.75rem, 6vw, 2.375rem);
+  line-height: 1.12;
+  letter-spacing: -.025em;
+}
+
+h2 {
+  margin: 0 0 var(--space-4);
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+
+p { margin: 0 0 var(--space-2); }
+
+.demo {
+  margin-bottom: var(--space-3);
+  color: var(--accent-hover);
+  font-size: .875rem;
+  font-weight: 700;
+}
+
+.muted { color: var(--muted); }
+.error { margin-block: var(--space-2); color: var(--danger); }
+.error:empty { margin: 0; }
+.hidden { display: none !important; }
+
+main > section {
+  padding: clamp(var(--space-4), 4vw, var(--space-6));
+  border: 1px solid var(--border);
+  border-radius: var(--panel-radius);
+  background: var(--surface);
+  box-shadow: 0 8px 24px #1824370d;
+}
+
+.choice, .grid {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.choice { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+nav.choice {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-1);
+  margin-top: var(--space-5);
+  padding: var(--space-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-muted);
+}
+
+button, select {
+  min-width: 0;
+  min-height: 48px;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font: inherit;
+}
+
+button {
+  background: var(--accent);
+  color: var(--surface);
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.secondary {
+  background: var(--surface-muted);
+  color: var(--ink);
+  border-color: var(--control-border);
+}
+
+.choice button, .grid button {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--control-border);
+}
+
+.choice button small, .grid button small {
+  display: block;
+  color: var(--muted);
+  font-size: .875rem;
+  font-weight: 400;
+}
+
+nav.choice button {
+  padding-inline: var(--space-1);
+  border-color: transparent;
+  border-radius: calc(var(--radius) - var(--space-1));
+  background: transparent;
+  color: var(--muted);
+}
+
+nav.choice button[aria-pressed="true"], .choice button[aria-pressed="true"],
+.grid button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.choice button[aria-pressed="true"] small, .grid button[aria-pressed="true"] small {
+  color: inherit;
+}
+
+#book-screen > .choice button { min-height: 64px; }
+
+.grid button {
+  min-height: 56px;
+  padding-inline: var(--space-1);
+  font-variant-numeric: tabular-nums;
+}
+
+.grid button:disabled {
+  border-color: var(--border);
+  background: var(--surface-muted);
+  color: var(--muted);
+  box-shadow: none;
+  cursor: default;
+}
+
+.step {
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+}
+
+label, .label {
+  display: block;
+  margin: 0 0 var(--space-2);
+  font-weight: 650;
+}
+
+select {
+  margin-bottom: var(--space-4);
+  border-color: var(--control-border);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.summary {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-inline-start: var(--space-1) solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface-muted);
+}
+
+.summary .head { margin-bottom: var(--space-1); font-weight: 700; }
+.summary div + div { margin-top: var(--space-1); }
+.summary button { margin-top: var(--space-3); }
+#staff-status:empty { margin: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--accent-hover);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  button:not(:disabled):hover { background: var(--accent-hover); }
+  .secondary:not(:disabled):hover,
+  .choice button:not(:disabled):hover,
+  .grid button:not(:disabled):hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent-hover);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  button {
+    transition: background-color var(--motion), border-color var(--motion),
+      color var(--motion), transform var(--motion);
+  }
+
+  button:not(:disabled):active { transform: translateY(1px); }
+
+  main > section:not(.hidden), .step:not(.hidden), #done-screen:not(.hidden) {
+    animation: reveal var(--motion);
+  }
+
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
