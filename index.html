@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light">
+  <title>Онлайн-запись на ремонт стекла · демо</title>
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./schedule.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+<main>
+  <header>
+    <p class="demo">Демо для портфолио</p>
+    <h1>Запись на ремонт лобового стекла</h1>
+    <p class="muted">Вымышленное расписание. Изменения действуют до перезагрузки страницы.</p>
+    <nav class="choice" aria-label="Экраны демоверсии">
+      <button type="button" data-view="booking" aria-pressed="true">Запись</button>
+      <button type="button" data-view="staff" aria-pressed="false">Мастер</button>
+      <button type="button" data-view="records" aria-pressed="false">Учёт</button>
+    </nav>
+  </header>
+  <noscript><p>Включите JavaScript, чтобы попробовать демоверсию.</p></noscript>
+
+  <section id="booking">
+    <div id="book-screen">
+      <h2>Выберите услугу</h2>
+      <div class="choice">
+        <button id="type-chip" type="button" aria-pressed="false">Ремонт скола<small>1 час</small></button>
+        <button id="type-replacement" type="button" aria-pressed="false">Замена стекла<small>2 часа</small></button>
+      </div>
+      <div id="day-step" class="step hidden">
+        <p class="label">День</p>
+        <div id="days" class="grid"></div>
+      </div>
+      <div id="time-step" class="step hidden">
+        <p class="label">Время начала</p>
+        <p id="time-day" class="muted"></p>
+        <div id="times" class="grid"></div>
+      </div>
+      <p id="booking-status" class="error" role="status"></p>
+      <div id="form-step" class="step hidden">
+        <p class="label">Подтверждение</p>
+        <div id="summary" class="summary"></div>
+        <label for="car">Тестовый автомобиль</label>
+        <select id="car">
+          <option value="rio">Kia Rio 2019</option>
+          <option value="polo">Volkswagen Polo 2020</option>
+          <option value="vesta">Lada Vesta 2021</option>
+        </select>
+        <button id="book" type="button">Создать демозапись</button>
+      </div>
+    </div>
+    <div id="done-screen" class="hidden">
+      <h2 id="done-title" tabindex="-1">Демозапись создана</h2>
+      <div id="done-summary" class="summary"></div>
+      <button id="again" class="secondary" type="button">Записаться ещё раз</button>
+    </div>
+  </section>
+
+  <section id="staff" class="hidden">
+    <h2>Расписание мастера</h2>
+    <label for="staff-day">День</label>
+    <select id="staff-day"></select>
+    <p id="staff-status" class="muted" role="status"></p>
+    <div id="staff-list"></div>
+  </section>
+
+  <section id="records" class="hidden">
+    <h2>Учёт записей</h2>
+    <label for="record-filter">Статус</label>
+    <select id="record-filter">
+      <option value="all">Все записи</option>
+      <option value="booked">Активные</option>
+      <option value="cancelled">Отменённые</option>
+    </select>
+    <p id="record-count" class="muted" role="status"></p>
+    <div id="record-list"></div>
+  </section>
+</main>
+</body>
+</html>
