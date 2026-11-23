@@ -196,6 +196,41 @@ select {
 .summary button { margin-top: var(--space-3); }
 #staff-status:empty { margin: 0; }
 
+#done-title {
+  --confirmation-size: 36px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: var(--confirmation-size);
+  padding-inline-start: calc(var(--confirmation-size) + var(--space-3));
+}
+
+#done-title::before, #done-title::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+#done-title::before {
+  inset-block-start: calc(50% - var(--confirmation-size) / 2);
+  inset-inline-start: 0;
+  width: var(--confirmation-size);
+  height: var(--confirmation-size);
+  border-radius: 50%;
+  background: var(--accent-soft);
+}
+
+#done-title::after {
+  box-sizing: border-box;
+  inset-block-start: calc(50% - 10px);
+  inset-inline-start: 13px;
+  width: 10px;
+  height: 17px;
+  border: solid var(--accent-hover);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
 :focus-visible {
   outline: 2px solid var(--accent-hover);
   outline-offset: 2px;
@@ -224,8 +259,37 @@ select {
     animation: reveal var(--motion);
   }
 
+  #done-screen:not(.hidden) #done-title::before {
+    animation: confirm-badge 460ms cubic-bezier(.2, .7, .3, 1);
+  }
+
+  #done-screen:not(.hidden) #done-title::after {
+    animation: confirm-check 280ms 100ms ease-out backwards;
+  }
+
   @keyframes reveal {
     from { opacity: 0; transform: translateY(5px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes confirm-badge {
+    from {
+      transform: scale(.75);
+      box-shadow: 0 0 0 0 transparent, 0 0 0 -16px transparent, 0 0 0 -16px transparent;
+    }
+    50% {
+      transform: scale(1.06);
+      box-shadow: 0 0 0 5px #2457bc26, -20px -13px 0 -16px #2457bc9c, 20px -14px 0 -16px #2457bc80;
+    }
+    to {
+      transform: scale(1);
+      box-shadow: 0 0 0 9px transparent, -24px -16px 0 -16px transparent, 24px -17px 0 -16px transparent;
+    }
+  }
+
+  @keyframes confirm-check {
+    from { clip-path: inset(100% 100% 0 0); }
+    45% { clip-path: inset(78% 0 0 0); }
+    to { clip-path: inset(0); }
   }
 }
